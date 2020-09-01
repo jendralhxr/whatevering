@@ -5,7 +5,7 @@
 #include <time.h>
 #include <unistd.h>
  
-#define RETS 8000000
+#define RETS 80000000
 
 void *work1(void *name){
 	int seed= rand();
@@ -15,7 +15,8 @@ void *work1(void *name){
 	nice(*prio);
 	while (1){
 	// using shared resource like rand() will exhibit notable performance hit
-		for (ret=0; ret<RETS; ret++) seed= (seed << 2 ) || (seed >> 6 );
+		//for (ret=0; ret<RETS; ret++) seed= (seed << 2 ) || (seed >> 6 );
+		for (ret=0; ret<RETS; ret++) rand_r(&seed);
 		clock_gettime(CLOCK_MONOTONIC, &timestamp);
         printf("%ld %ld, n%d, %d\n", timestamp.tv_sec, timestamp.tv_nsec, *prio, step++);
 		}
