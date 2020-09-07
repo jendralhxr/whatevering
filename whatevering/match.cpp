@@ -18,7 +18,7 @@ int max_Trackbar = 5;
 void MatchingMethod( int, void* );
 
 /** @function main */
-int main2( int argc, char** argv )
+int main( int argc, char** argv )
 {
   /// Load image and template
   img = imread( argv[1], 1 );
@@ -26,7 +26,7 @@ int main2( int argc, char** argv )
 
   /// Create windows
   namedWindow( image_window, WINDOW_AUTOSIZE );
-  namedWindow( result_window, WINDOW_AUTOSIZE );
+  //namedWindow( result_window, WINDOW_AUTOSIZE );
 
   /// Create Trackbar
   char* trackbar_label = "Method: \n 0: SQDIFF \n 1: SQDIFF NORMED \n 2: TM CCORR \n 3: TM CCORR NORMED \n 4: TM COEFF \n 5: TM COEFF NORMED";
@@ -56,7 +56,9 @@ void MatchingMethod( int, void* )
 
   /// Do the Matching and Normalize
   matchTemplate( img, templ, result, match_method );
-  normalize( result, result, 0, 1, NORM_MINMAX, -1, Mat() );
+  //imshow("asdas", result);
+  //waitKey(1000);
+  //normalize( result, result, 0, 1, NORM_MINMAX, -1, Mat() );
 
   /// Localizing the best match with minMaxLoc
   double minVal; double maxVal; Point minLoc; Point maxLoc;
@@ -70,24 +72,25 @@ void MatchingMethod( int, void* )
   else
     { matchLoc = maxLoc; }
 
+	printf("match %d %d; min %f %f\n", matchLoc.x, matchLoc.y);
   /// Show me what you got
-  rectangle( img_display, matchLoc, Point( matchLoc.x + templ.cols , matchLoc.y + templ.rows ), Scalar::all(0), 2, 8, 0 );
-  rectangle( result, matchLoc, Point( matchLoc.x + templ.cols , matchLoc.y + templ.rows ), Scalar::all(0), 2, 8, 0 );
+  //rectangle( img_display, matchLoc, Point( matchLoc.x + templ.cols , matchLoc.y + templ.rows ), Scalar::all(0), 2, 8, 0 );
+  //rectangle( result, matchLoc, Point( matchLoc.x + templ.cols , matchLoc.y + templ.rows ), Scalar::all(0), 2, 8, 0 );
 
-  imshow( image_window, img_display );
-  imshow( result_window, result );
+  //imshow( image_window, img_display );
+  //imshow( result_window, result );
 
   return;
 }
 
-float correlation(cv::Mat &image1, cv::Mat &image2) 
+float correlation3(cv::Mat &image1, cv::Mat &image2) 
 {
     cv::Mat corr;
     cv::matchTemplate(image1, image2, corr, cv::TM_CCORR_NORMED);
     return corr.at<float>(0,0);  // corr only has one pixel
 }
 
-double correlation(cv::Mat &image_1, cv::Mat &image_2)   {
+double correlation2(cv::Mat &image_1, cv::Mat &image_2)   {
 
 // convert data-type to "float"
 cv::Mat im_float_1;
@@ -107,9 +110,10 @@ double covar = (im_float_1 - im1_Mean).dot(im_float_2 - im2_Mean) / n_pixels;
 double correl = covar / (im1_Std[0] * im2_Std[0]);
 
 return correl;
+}
 
 
-int main(int argc, char **argv){
+int main3(int argc, char **argv){
 	/*
 	 * 1) extract centroid position of the markers and the ROI of current frame
 	 * 2) assign ROI based on the largest between current and prev frame (width and height)
