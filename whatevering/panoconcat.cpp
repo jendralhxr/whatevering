@@ -32,7 +32,6 @@ int panoconcat(Mat *pano, Mat *sample, int coltab, int rowtab){
 	int offset= rowtab * PANO_COLS * SAMPLE_WIDTH * SAMPLE_HEIGHT * NUM_CHANNEL + coltab * SAMPLE_WIDTH * NUM_CHANNEL;
 	int interval= PANO_COLS * SAMPLE_WIDTH * NUM_CHANNEL; 
 	for (int j=0; j<SAMPLE_HEIGHT; j++){
-		std::cout << offset << " " << interval  << std::endl;
 		memcpy( &(pano->data[offset]), &(sample->data[j*SAMPLE_WIDTH*NUM_CHANNEL]), SAMPLE_WIDTH * NUM_CHANNEL  );
 		offset += interval;
 		}
