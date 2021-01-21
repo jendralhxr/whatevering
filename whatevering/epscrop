@@ -1,0 +1,5 @@
+#!/bin/bash
+
+epstopdf $1 /dev/shm/test.pdf
+pdfcrop /dev/shm/test.pdf /dev/shm/test.pdf
+pdftops -eps /dev/shm/test.pdf $1
