@@ -63,6 +63,30 @@ while(1):
             blob_start= blob_end;    
 
     # apply the watersehd
+    # (optional) detect blob shape: concentricity, particle, etc
+    for x in range(detection_line, frame_width-2):
+        # assign ID from neighboring pixel
+        # upward
+        for y in range(midline, 0, -1):
+            if (cue.item( y, x, 1)== 255) and (cue.item( y+1, x, 1)!= 255):
+                cue.itemset(y, x, 1, cue.item( y+1, x, 1));
+            if (cue.item( y, x, 1)== 255) and (cue.item( y+1, x+1, 1)!= 255):
+                cue.itemset(y, x, 1, cue.item( y+1, x+1, 1));
+            if (cue.item( y, x, 1)== 255) and (cue.item( y+1, x-1, 1)!= 255):
+                cue.itemset(y, x, 1, cue.item( y+1, x-1, 1));
+            if (cue.item( y, x, 1)== 0):
+                break;
+        # downward
+        for y in range(midline, y_span, 1):
+            if (cue.item( y, x, 1)== 255) and (cue.item( y-1, x, 1)!= 255):
+                cue.itemset(y, x, 1, cue.item( y-1, x, 1));
+            if (cue.item( y, x, 1)== 255) and (cue.item( y-1, x+1, 1)!= 255):
+                cue.itemset(y, x, 1, cue.item( y-1, x+1, 1));
+            if (cue.item( y, x, 1)== 255) and (cue.item( y-1, x-1, 1)!= 255):
+                cue.itemset(y, x, 1, cue.item( y-1, x-1, 1));
+            if (cue.item( y, x, 1)== 0):
+                break;
+        
     
     prev= cue;
     
