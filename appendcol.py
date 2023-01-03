@@ -1,5 +1,9 @@
-#use it like:
-#  for i in *csv; do python -u appendcol.py compiled.csvx $i; done
+# use it like:
+#    for i in *csv; do python -u appendcol.py compiled.csvx $i; done
+# or more precisely like:
+#    for i in `seq -w 0 499`; do echo $i >> tes.tx ; done
+#    for i in `seq 5 100`; do python appendcol.py tes.tx "$i".csv; done
+
 
 import pandas as pd
 import sys
