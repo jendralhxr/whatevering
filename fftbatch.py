@@ -15,7 +15,7 @@ import sys
 source = pd.read_csv(sys.argv[1])
 output= source
 
-for i in ["0x","1x","2x","3x","4x","5x","6x"]:
+for i in ["0x","1x","2x","3x","4x","5x","6x","0y","1y","2y","3y","4y","5y","6y"]:
     # may need to scale according to the number of samples
     output[i]= np.fft.fft(source[i])
 
