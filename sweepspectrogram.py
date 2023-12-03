@@ -30,6 +30,14 @@ for sweep in range(100):
         wrist[sweep,i]= complex(data['wrist-fft'][i])
         finger[sweep,i]= complex(data['finger-fft'][i])
 
+t= np.linspace(1,100,100)
+fs= np.linspace(1,250,1500)
+plt.figure()
+plt.pcolormesh(fs, t, np.abs(plate))
+#plt.pcolormesh(fs, t, np.abs(plate), shading='gouraud')
+plt.ylabel('Frequency response bin [Hz]')
+plt.xlabel('Frequency sweep [Hz]')
+plt.show()
     
 ####
 for i in range(1500):
