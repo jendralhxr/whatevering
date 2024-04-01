@@ -40,3 +40,28 @@ nx.draw_networkx_labels(G, pos)
 # Display the graph
 plt.axis('off')
 plt.show()
+
+# ------------------
+
+import networkx as nx
+
+# Create a graph with mesh complex edges
+G = nx.Graph()
+
+# Add some nodes and edges
+G.add_edges_from([(1, 2), (2, 3), (3, 4), (4, 1), (2, 5), (5, 6), (6, 3), (3, 7), (7, 8), (8, 5)])
+
+# Function to delete edges shorter than a given threshold
+def delete_short_edges(graph, threshold):
+    edges_to_remove = []
+    for edge in graph.edges():
+        if nx.shortest_path_length(graph, source=edge[0], target=edge[1]) < threshold:
+            edges_to_remove.append(edge)
+    graph.remove_edges_from(edges_to_remove)
+
+# Example usage
+threshold = 3
+delete_short_edges(G, threshold)
+
+# Print remaining edges
+print("Remaining Edges:", G.edges())
