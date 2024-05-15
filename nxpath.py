@@ -65,3 +65,69 @@ delete_short_edges(G, threshold)
 
 # Print remaining edges
 print("Remaining Edges:", G.edges())
+
+#-------
+
+
+def remove_short_paths(G, hops):
+    paths_to_remove = []
+    for source in G.nodes():
+        for target in G.nodes():
+            if source != target:
+                paths = list(nx.all_simple_paths(G, source, target))
+                for path in paths:
+                    if len(path) < hops:
+                        paths_to_remove.append(path)
+    for path in paths_to_remove:
+        G.remove_edges_from(zip(path[:-1], path[1:]))
+    isolated_nodes = list(nx.isolates(G))
+    G.remove_nodes_from(isolated_nodes)
+    
+    #-----
+    
+    import networkx as nx
+
+def remove_short_paths(G, threshold):
+    # Identify all simple paths and their lengths
+    all_paths = []
+    for source in G.nodes():
+        for target in G.nodes():
+            if source != target:
+                paths = nx.all_simple_paths(G, source, target)
+                all_paths.extend(paths)
+    
+    # Group paths by their start and end nodes
+    paths_by_start_end = {}
+    for path in all_paths:
+        start, end = path[0], path[-1]
+        if (start, end) not in paths_by_start_end:
+            paths_by_start_end[(start, end)] = []
+        paths_by_start_end[(start, end)].append(path)
+    
+    # Keep only the longest path for each start-end pair
+    longest_paths = [max(paths, key=len) for paths in paths_by_start_end.values()]
+    
+    # Remove short paths while preserving the longer branches
+    for path in longest_paths:
+        for u, v in zip(path[:-1], path[1:]):
+            if G.has_edge(u, v):
+                G[u][v]['keep'] = True
+    
+    for u, v, attrs in G.edges(data=True):
+        if 'keep' not in attrs:
+            G.remove_edge(u, v)
+        else:
+            del attrs['keep']
+    
+    # Remove isolated nodes
+    isolated_nodes = list(nx.isolates(G))
+    G.remove_nodes_from(isolated_nodes)
+
+# Example usage:
+G = nx.Graph()
+# Add nodes and edges to the graph...
+
+threshold = 4  # Set your threshold here
+
+# Call the function to remove paths shorter than the threshold
+remove_short_paths(G, threshold)
