@@ -19,6 +19,7 @@ plt.plot(df['time'], df['smoothed_count'], label='Smoothed (Moving Average)', li
 plt.xlabel('Time')
 plt.ylabel('Count')
 plt.title('Count over Time with Moving Average Smoothing')
+plt.xticks(range( int(min(df['time'])), int(max(df['time'])) + 1, 15))
 plt.legend()
 plt.grid(True)
 plt.show()
