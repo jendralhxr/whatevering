@@ -3,9 +3,9 @@ from matplotlib_venn import venn3
 import matplotlib.pyplot as plt
 
 # Define the sets
-fields_info = {"Data Science", "Information\nSystem", "Artificial\nIntelligence", "Cybernetics ", "Informatics ", "Smart System "}
-fields_ctrl = {"System\nEngineering", "Mechatronics", "Artificial\nIntelligence", "Cybernetics ", "Informatics ", "Smart System "}
-fields_auto = {"Robotics", "Mechatronics", "Information\nSystem", "Cybernetics ", "Informatics ", "Smart System "}
+fields_info = {"Data Science", "Information\nSystem", "Artificial\nIntelligence", "Cybernetics (A)", "Informatics (I)", "Smart System (C)"}
+fields_ctrl = {"System\nEngineering", "Mechatronics", "Artificial\nIntelligence", "Cybernetics (A)", "Informatics (I)", "Smart System (C)"}
+fields_auto = {"Robotics", "Mechatronics", "Information\nSystem", "Cybernetics (A)", "Informatics (I)", "Smart System (C)"}
 
 # Create the Venn diagram
 venn = venn3([fields_info, fields_ctrl, fields_auto],
