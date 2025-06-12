@@ -84,7 +84,7 @@ G = nx.DiGraph()
 
 # Add edges with weights
 for _, row in edges_df.iterrows():
-    G.add_edge(row['target'], row['target'], weight=row['weight'])
+    G.add_edge(row['target'], row['source'], weight=row['weight'])
 
 # Assign layer info
 layer_map = dict(zip(nodes_df["node"], nodes_df["layer"]))

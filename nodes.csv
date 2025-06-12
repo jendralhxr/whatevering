@@ -1,17 +1,30 @@
-node,layer
+nnode,layer
 Feasibility,0
 Spatial Planning,1
 Technical Aspects,1
 Economics,1
 Environment,1
 Navigational Safety,1
-Kaka,2
-Child1.2,2
-Child2.1,2
-Child2.2,2
-Child3.1,2
-Child3.2,2
-Child4.1,2
-Child4.2,2
-Child5.1,2
-Child5.2,2
+National Port Master Plan (RIPN),2
+Coastal and Small Islands Zoning Plan,2
+Provincial Spatial Planning,2
+Regency/City Spatial Planning,2
+Preliminary Feasibility Study
+Distance to Reach Planned Water Depth,2
+Accessibility,2
+Primary Supporting Infrastructure,2
+Natural Wave Height (without breakwater),2
+Yearly Port Operation Time ,2
+Sedimentation,2
+Water Area for Ship Maneuvering,2
+Current,2
+Tidal Range (no extreme tides),2
+Topography,2
+Hinterland and Foreland Potential,2
+Gross Regional Domestic Product (GRDP),2
+Economic Internal Rate of Return (EIRR),2
+Financial Internal Rate of Return (FIRR),2
+Land Status,2
+Population in the Hinterland Area,2
+Shipping Lane and Aids to Navigation (AToN) Requirements,2
+Disaster Vulnerability Level,2
