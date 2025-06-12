@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jun 13 03:21:35 2025
+
+@author: rdx
+"""
+
+node,layer
+Feasibility,0
+Spatial Planning,1
+Technical Aspects,1
+Economics,1
+Environment,1
+Navigational Safety,1
+Child1.1,2
+Child1.2,2
+Child2.1,2
+Child2.2,2
+Child3.1,2
+Child3.2,2
+Child4.1,2
+Child4.2,2
+Child5.1,2
+Child5.2,2
