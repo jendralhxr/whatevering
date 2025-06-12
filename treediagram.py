@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import colorsys
 
 # Load edges and weights
-edges_df = pd.read_csv("edges.csv")
 nodes_df = pd.read_csv("nodes.csv")
+edges_df = pd.read_csv("edges.csv")
 
 # Create directed graph
 G = nx.DiGraph()
