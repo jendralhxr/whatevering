@@ -123,7 +123,7 @@ pos = {node: (y * 4, -x * 3) for node, (x, y) in pos.items()}
 
 # Draw graph
 colors = [node_colors.get(n, (0.9, 0.9, 0.9)) for n in G.nodes()]
-nx.draw(G, pos, with_labels=True, node_color=colors, node_size=2500, font_weight='bold', arrows=True)
+nx.draw(G, pos, with_labels=True, node_color=colors, node_size=2500, font_weight='bold', font_size=8, arrows=True)
 
 # Draw edge weights
 edge_labels = {(u, v): f"{d['weight']:.2f}" for u, v, d in G.edges(data=True)}
