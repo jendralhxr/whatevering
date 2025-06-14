@@ -49,14 +49,27 @@ for branch in branches:
 pos = nx.multipartite_layout(G, subset_key="layer")
 pos = {node: (y * 4, -x * 3) for node, (x, y) in pos.items()}
 
-# Draw graph
 colors = [node_colors.get(n, (0.9, 0.9, 0.9)) for n in G.nodes()]
-nx.draw(G, pos, with_labels=True, node_color=colors, node_size=2500, font_weight='bold', font_size=8, arrows=True)
+
+weights = [d['weight'] for u, v, d in G.edges(data=True)]
+scaled_weights = [w * 20 for w in weights]  # Multiply by 2 for visibility
+nx.draw(G, pos,
+        with_labels=True,
+        node_color=colors,
+        node_size=2500,
+        font_weight='bold',
+        font_size=8,
+        width=scaled_weights,  # Edge thickness
+        arrows=True)
+
+
+# Draw graph
+# nx.draw(G, pos, with_labels=True, node_color=colors, node_size=2500, font_weight='bold', font_size=8, arrows=False)
 
 # Draw edge weights
 edge_labels = {(u, v): f"{d['weight']:.2f}" for u, v, d in G.edges(data=True)}
 nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='black', font_size=9)
 
-plt.title("Feasibility Tree from CSV (Layers, Colors, Weights)")
+#plt.title("Feasibility Tree from CSV (Layers, Colors, Weights)")
 plt.tight_layout()
 plt.show()
