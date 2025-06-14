@@ -4,28 +4,27 @@ Feasibility,Technical Aspects,0.30
 Feasibility,Economics,0.25
 Feasibility,Environment,0.15
 Feasibility,Navigational Safety,0.15
-Spatial Planning,National Port Master Plan (RIPN),.33
-Spatial Planning,Coastal and Small Islands Zoning Plan,.2
-Spatial Planning,Provincial Spatial Planning,.13
-Spatial Planning,Regency/City Spatial Planning,2.13
-Spatial Planning,Preliminary Feasibility Study,2.2
-Technical Aspects,Distance to Reach Planned Water Depth,.16
-Technical Aspects,Accessibility,.13
-Technical Aspects,Primary Supporting Infrastructure,.1
-Technical Aspects,Yearly Port Operation Time,..1
-Technical Aspects,Sedimentation,.2
-Technical Aspects,Current,.1
-Technical Aspects,Tidal Range (no extreme tides),.1
-Technical Aspects,Topography,.1
-Economics,Hinterland and Foreland Potential,.2
-Economics,Gross Regional Domestic Product (GRDP),.2
-Economics,Economic Internal Rate of Return (EIRR),.4
-Economics,Financial Internal Rate of Return (FIRR),.2
-Environment,Land Ownership Status,.33
-Environment,Environmental Impact (Construction and Operation),.2
-Environment,Disaster Vulnerability,.2
-Environment,Activities to Nearby Existing Port,.266
-Navigational Safety,Navigational Channel,.466
-Navigational Safety,Navigational Aid,.2
-Navigational Safety,Water Area for Maneuvering,. .33
-#Technical Aspects,Natural Wave Height (without breakwater),.1 #kok ilang?
+Spatial Planning,National Port Master Plan (RIPN),0.33
+Spatial Planning,Coastal and Small Islands Zoning Plan,0.2
+Spatial Planning,Provincial Spatial Planning,0.13
+Spatial Planning,Regency/City Spatial Planning,0.13
+Spatial Planning,Preliminary Feasibility Study,0.2
+Technical Aspects,Distance to Reach Planned Water Depth,0.16
+Technical Aspects,Accessibility,0.13
+Technical Aspects,Primary Supporting Infrastructure,0.1
+Technical Aspects,Yearly Port Operation Time,0.1
+Technical Aspects,Sedimentation,0.2
+Technical Aspects,Current,0.1
+Technical Aspects,Tidal Range,0.1
+Technical Aspects,Topography,0.1
+Economics,Hinterland and Foreland Potential,0.2
+Economics,Gross Regional Domestic Product (GRDP),0.2
+Economics,Economic Internal Rate of Return (EIRR),0.4
+Economics,Financial Internal Rate of Return (FIRR),0.2
+Environment,Land Ownership Status,0.33
+Environment,Environmental Impact (Construction and Operation),0.2
+Environment,Disaster Vulnerability,0.2
+Environment,Activities to Nearby Existing Port,0.266
+Navigational Safety,Navigational Channel,0.466
+Navigational Safety,Navigational Aid,0.2
+Navigational Safety,Water Area for Maneuvering,0.33
