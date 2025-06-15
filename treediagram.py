@@ -45,21 +45,23 @@ for branch in branches:
         depth = layer_map[child]
         node_colors[child] = get_color(branch, depth)
 
-# Generate layout
-pos = nx.multipartite_layout(G, subset_key="layer")
-pos = {node: (y * 4, -x * 3) for node, (x, y) in pos.items()}
 
 colors = [node_colors.get(n, (0.9, 0.9, 0.9)) for n in G.nodes()]
 
 weights = [d['weight'] for u, v, d in G.edges(data=True)]
-scaled_weights = [w * 20 for w in weights]  # Multiply by 2 for visibility
-nx.draw(G, pos,
+
+#pos = nx.multipartite_layout(G, subset_key="layer")
+# pos = {node: (y * 4, -x * 3) for node, (x, y) in pos.items()}
+pos = nx.kamada_kawai_layout(G, scale=100)
+
+
+nx.draw(G, nx.planar_layout(G),
         with_labels=True,
         node_color=colors,
-        node_size=2500,
+        node_size=200,
         font_weight='bold',
         font_size=8,
-        width=scaled_weights,  # Edge thickness
+        width=[w * 10 for w in weights],  # Edge thickness
         arrows=True)
 
 
