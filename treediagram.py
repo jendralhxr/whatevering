@@ -28,7 +28,6 @@ for i, branch in enumerate(branches):
     hue = i / len(branches)
     base_rgb = colorsys.hsv_to_rgb(hue, 0.4, 1.0)
     branch_colors[branch] = base_rgb
-
 # Assign node colors
 node_colors = {}
 node_colors[root] = (0.6, 0.6, 0.6)  # root = gray
@@ -50,23 +49,30 @@ colors = [node_colors.get(n, (0.9, 0.9, 0.9)) for n in G.nodes()]
 
 weights = [d['weight'] for u, v, d in G.edges(data=True)]
 
+depths = nx.single_source_shortest_path_length(G, root)
+stretch_y = 4  # Increase to spread depths more
+
 #pos = nx.multipartite_layout(G, subset_key="layer")
 # pos = {node: (y * 4, -x * 3) for node, (x, y) in pos.items()}
-pos = nx.kamada_kawai_layout(G, scale=100)
-
-
-nx.draw(G, nx.planar_layout(G),
+pos= nx.kamada_kawai_layout(G, scale=1.2)
+# nx.planar_layout(G)
+nx.draw(G, pos,
         with_labels=True,
         node_color=colors,
         node_size=200,
         font_weight='bold',
         font_size=8,
-        width=[w * 10 for w in weights],  # Edge thickness
+        width=[w * 8 for w in weights],  # Edge thickness
         arrows=True)
 
+for node in pos:
+    x, y = pos[node]
+    depth = depths.get(node, 0)
+    pos[node] = (x, y * (1 + depth * stretch_y))  # Stretch Y based on depth
 
 # Draw graph
 # nx.draw(G, pos, with_labels=True, node_color=colors, node_size=2500, font_weight='bold', font_size=8, arrows=False)
+
 
 # Draw edge weights
 edge_labels = {(u, v): f"{d['weight']:.2f}" for u, v, d in G.edges(data=True)}
