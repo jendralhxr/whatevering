@@ -5,14 +5,14 @@ Feasibility,Economics,0.25
 Feasibility,Environment,0.15
 Feasibility,Navigational Safety,0.15
 Spatial Planning,National Port Master Plan (RIPN),0.33
-Spatial Planning,Coastal and Small Islands Zoning Plan,0.2
-Spatial Planning,Provincial Spatial Planning,0.13
-Spatial Planning,Municipal Spatial Planning,0.13
+Spatial Planning,Coastal/Small Islands Zoning Plan,0.2
+Spatial Planning,Provincial Plan,0.13
+Spatial Planning,Municipal Plan,0.13
 Spatial Planning,Preliminary Study,0.2
-Technical Aspects,Distance to Reach Planned Water Depth,0.16
+Technical Aspects,Distance to Planned Water Depth,0.16
 Technical Aspects,Accessibility,0.13
-Technical Aspects,Primary Supporting Infrastructure,0.1
-Technical Aspects,Yearly Port Operation Time,0.1
+Technical Aspects,Supporting Infrastructure,0.1
+Technical Aspects,Yearly Operation Time,0.1
 Technical Aspects,Sedimentation,0.2
 Technical Aspects,Current,0.1
 Technical Aspects,Tidal Range,0.1
