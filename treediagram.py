@@ -11,6 +11,12 @@ edges_df = pd.read_csv("edges.csv")
 
 # Create directed graph
 G = nx.DiGraph()
+# for _, row in edges_df.iterrows():
+#     G.add_edge(row['source'], row['target'], weight=row['weight'])
+for _, row in edges_df.iterrows():
+    style = 'solid' if row['line_style'] == 's' else 'dashed'
+    G.add_edge(row['source'], row['target'], weight=row['weight'], style=style)
+
 
 # Add edges with weights
 for _, row in edges_df.iterrows():
@@ -116,6 +122,7 @@ for i, trunk in enumerate(neighbors):
         pos[child] = pos[trunk] + offset
 
 
+
 # nx.planar_layout(G)
 nx.draw(G, pos,
         with_labels=True,
@@ -126,13 +133,43 @@ nx.draw(G, pos,
         width=[w * 8 for w in weights],  # Edge thickness
         arrows=True)
 
-# Draw graph
-# nx.draw(G, pos, with_labels=True, node_color=colors, node_size=2500, font_weight='bold', font_size=8, arrows=False)
+# with line style
+# Separate edges by style
+solid_edges = [(u, v) for u, v, d in G.edges(data=True) if d.get('style') == 'solid']
+dashed_edges = [(u, v) for u, v, d in G.edges(data=True) if d.get('style') == 'dashed']
+
+# Edge weights
+edge_weights = nx.get_edge_attributes(G, 'weight')
+
+# Draw solid edges
+nx.draw_networkx_edges(
+    G, pos,
+    edgelist=solid_edges,
+    width=[edge_weights[(u, v)] * 8 for u, v in solid_edges],
+    style='solid',
+    arrows=True
+)
+
+# Draw dashed edges
+nx.draw_networkx_edges(
+    G, pos,
+    edgelist=dashed_edges,
+    width=[edge_weights[(u, v)] * 8 for u, v in dashed_edges],
+    style='dashed',
+    arrows=True
+)
+
+# Draw nodes and labels once
+nx.draw_networkx_nodes(G, pos, node_color=colors, node_size=200)
+nx.draw_networkx_labels(G, pos, font_weight='bold', font_size=6)
+
+
+# line style ends
 
 
 # Draw edge weights
 edge_labels = {(u, v): f"{d['weight']:.2f}" for u, v, d in G.edges(data=True)}
-nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='black', font_size=9)
+nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='black', font_size=4.5)
 
 #plt.title("Feasibility Tree from CSV (Layers, Colors, Weights)")
 plt.tight_layout()
