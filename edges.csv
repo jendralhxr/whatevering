@@ -18,9 +18,9 @@ Technical Aspects,Current,0.1
 Technical Aspects,Tidal Range,0.1
 Technical Aspects,Topography,0.1
 Economics,Hinterland and Foreland Potential,0.2
-Economics,Gross Regional Domestic Product (GRDP),0.2
-Economics,Economic Internal Rate of Return (EIRR),0.4
-Economics,Financial Internal Rate of Return (FIRR),0.2
+Economics,GRDP,0.2
+Economics,EIRR,0.4
+Economics,FIRR,0.2
 Environment,Land Ownership Status,0.33
 Environment,Environmental Impact (Construction and Operation),0.2
 Environment,Disaster Vulnerability,0.2

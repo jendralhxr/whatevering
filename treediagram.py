@@ -2,6 +2,8 @@ import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
 import colorsys
+import math
+import numpy as np
 
 # Load edges and weights
 nodes_df = pd.read_csv("nodes.csv")
@@ -45,16 +47,33 @@ for branch in branches:
         node_colors[child] = get_color(branch, depth)
 
 
-colors = [node_colors.get(n, (0.9, 0.9, 0.9)) for n in G.nodes()]
 
 weights = [d['weight'] for u, v, d in G.edges(data=True)]
 
-depths = nx.single_source_shortest_path_length(G, root)
-stretch_y = 4  # Increase to spread depths more
+colors = [node_colors.get(n, (0.9, 0.9, 0.9)) for n in G.nodes()]
 
-#pos = nx.multipartite_layout(G, subset_key="layer")
-# pos = {node: (y * 4, -x * 3) for node, (x, y) in pos.items()}
+depths = nx.single_source_shortest_path_length(G, root)
+
+span1= 1
+span2= 0.6
+
 pos= nx.kamada_kawai_layout(G, scale=1.2)
+pos[root]= [0,0]
+neighbors = list(G.successors(root))
+n = len(neighbors)
+circle_positions = {}
+for i, node in enumerate(neighbors):
+    angle = 2 * math.pi * i / n
+    x = math.cos(angle) * span1
+    y = math.sin(angle) * span1
+    pos[node] = (x, y) 
+
+for trunk in list(G.successors(root)):
+    for branch in list(G.successors(trunk)):
+        pos[branch] = np.array(pos[trunk]) * (span1 + 2*span2) + (np.random.rand(2) * 2 - 1) * (span2)
+
+
+
 # nx.planar_layout(G)
 nx.draw(G, pos,
         with_labels=True,
@@ -64,11 +83,6 @@ nx.draw(G, pos,
         font_size=8,
         width=[w * 8 for w in weights],  # Edge thickness
         arrows=True)
-
-for node in pos:
-    x, y = pos[node]
-    depth = depths.get(node, 0)
-    pos[node] = (x, y * (1 + depth * stretch_y))  # Stretch Y based on depth
 
 # Draw graph
 # nx.draw(G, pos, with_labels=True, node_color=colors, node_size=2500, font_weight='bold', font_size=8, arrows=False)
