@@ -54,8 +54,8 @@ colors = [node_colors.get(n, (0.9, 0.9, 0.9)) for n in G.nodes()]
 
 depths = nx.single_source_shortest_path_length(G, root)
 
-span1= 1
-span2= 0.6
+span1= 2
+span2= 1
 
 pos= nx.kamada_kawai_layout(G, scale=1.2)
 pos[root]= [0,0]
@@ -70,8 +70,50 @@ for i, node in enumerate(neighbors):
 
 for trunk in list(G.successors(root)):
     for branch in list(G.successors(trunk)):
-        pos[branch] = np.array(pos[trunk]) * (span1 + 2*span2) + (np.random.rand(2) * 2 - 1) * (span2)
+        pos[branch] = np.array(pos[trunk]) * (2*span1 + span2) + (np.random.rand(2) * 2 - 1) * (2*span2)
 
+
+PHI = 1.6180339887498948482  # ppl says this is a beautiful number :)
+# chatgpt
+span1 = 1   # distance from root to trunks
+span2 = 0.8   # base distance from trunk to branch
+fan_angle = math.radians(180/PHI)  # total fan spread per trunk (in radians)
+
+# Position root
+pos = {root: np.array([0, 0])}
+
+# Depth-1: Place trunks in a circle
+neighbors = list(G.successors(root))
+n = len(neighbors)
+
+for i, trunk in enumerate(neighbors):
+    angle = 2 * math.pi * i / n
+    trunk_pos = np.array([math.cos(angle), math.sin(angle)]) * span1
+    pos[trunk] = trunk_pos
+
+    # Depth-2: Branches of this trunk
+    children = list(G.successors(trunk))
+    m = len(children)
+    if m == 0:
+        continue
+
+    # Get direction vector from root → trunk
+    direction = trunk_pos / np.linalg.norm(trunk_pos)
+
+    # Create a perpendicular vector for fanning
+    perp = np.array([-direction[1], direction[0]])
+
+    for j, child in enumerate(children):
+        # Fan branches around the trunk direction
+        if m == 1:
+            offset = np.array([0.0])  # no spread needed
+        else:
+            # angle offset from central direction
+            theta = -fan_angle / 2 + j * (fan_angle / (m - 1))
+            # rotate direction by theta using 2D rotation formula
+            #offset = (math.cos(theta) * direction + math.sin(theta) * perp) * span2 * np.random.rand() * PHI/G.edges[(trunk,child)]['weight']
+            offset = (math.cos(theta) * direction + math.sin(theta) * perp) * span2 * PHI
+        pos[child] = pos[trunk] + offset
 
 
 # nx.planar_layout(G)
@@ -80,7 +122,7 @@ nx.draw(G, pos,
         node_color=colors,
         node_size=200,
         font_weight='bold',
-        font_size=8,
+        font_size=6,
         width=[w * 8 for w in weights],  # Edge thickness
         arrows=True)
 
