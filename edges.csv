@@ -28,3 +28,9 @@ Environment,Activities to Nearby Existing Port,0.266,s
 Navigational Safety,Navigational Channel,0.466,s
 Navigational Safety,Navigational Aid,0.2,s
 Navigational Safety,Water Area for Maneuvering,0.33,s
+
+Activities to Nearby Existing Port,Navigational Channel,0.1,d
+Disaster Vulnerability,Tidal Range,0.1,d
+Municipal Plan,Land Ownership Status,0.1,d
+Provincial Plan,Land Ownership Status,0.1,d
+Topography,Disaster Vulnerability,0.1,d

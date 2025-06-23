@@ -163,24 +163,9 @@ nx.draw_networkx_edges(
 )
 
 
-# Draw dashed edges
-# Reverse the direction in drawing only
-reversed_edges = [(v, u) for u, v in G.edges()]
-
-# Draw reversed arrows
-nx.draw_networkx_edges(G, pos,
-                       edgelist=reversed_edges,
-                       )  # optional: curve
-
-
-
-
 # Draw nodes and labels once
 nx.draw_networkx_nodes(G, pos, node_color=colors, node_size=200)
 nx.draw_networkx_labels(G, pos, font_size=6)
-
-
-# line style ends
 
 
 # Draw edge weights
