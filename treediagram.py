@@ -121,22 +121,20 @@ for i, trunk in enumerate(neighbors):
             offset = (math.cos(theta) * direction + math.sin(theta) * perp) * span2 * PHI
         pos[child] = pos[trunk] + offset
 
-
-
-# nx.planar_layout(G)
-nx.draw(G, pos,
-        with_labels=True,
-        node_color=colors,
-        node_size=200,
-        font_weight='bold',
-        font_size=6,
-        width=[w * 8 for w in weights],  # Edge thickness
-        arrows=True)
+# # nx.planar_layout(G)
+# nx.draw(G, pos,
+#         with_labels=True,
+#         node_color=colors,
+#         node_size=200,
+#         font_weight='bold',
+#         font_size=6,
+#         width=[w * 8 for w in weights],  # Edge thickness
+#         arrows=True)
 
 # with line style
 # Separate edges by style
-solid_edges = [(u, v) for u, v, d in G.edges(data=True) if d.get('style') == 'solid']
-dashed_edges = [(u, v) for u, v, d in G.edges(data=True) if d.get('style') == 'dashed']
+solid_edges = [(v,u) for u, v, d in G.edges(data=True) if d.get('style') == 'solid']
+dashed_edges = [(v,u) for u, v, d in G.edges(data=True) if d.get('style') == 'dashed']
 
 # Edge weights
 edge_weights = nx.get_edge_attributes(G, 'weight')
@@ -145,23 +143,41 @@ edge_weights = nx.get_edge_attributes(G, 'weight')
 nx.draw_networkx_edges(
     G, pos,
     edgelist=solid_edges,
-    width=[edge_weights[(u, v)] * 8 for u, v in solid_edges],
+    width=[edge_weights[(v,u)] * 8 for u, v in solid_edges],
     style='solid',
-    arrows=True
+    arrows=True,
+    arrowstyle='->',
+    edge_color='gray',
+    connectionstyle='arc3,rad=0.1'
 )
 
-# Draw dashed edges
 nx.draw_networkx_edges(
     G, pos,
     edgelist=dashed_edges,
-    width=[edge_weights[(u, v)] * 8 for u, v in dashed_edges],
+    width=[edge_weights[(v,u)] * 4 for u, v in dashed_edges],
     style='dashed',
-    arrows=True
+    arrows=True,
+    arrowstyle='->',
+    edge_color='lightgray',
+    connectionstyle='arc3,rad=0.1'
 )
+
+
+# Draw dashed edges
+# Reverse the direction in drawing only
+reversed_edges = [(v, u) for u, v in G.edges()]
+
+# Draw reversed arrows
+nx.draw_networkx_edges(G, pos,
+                       edgelist=reversed_edges,
+                       )  # optional: curve
+
+
+
 
 # Draw nodes and labels once
 nx.draw_networkx_nodes(G, pos, node_color=colors, node_size=200)
-nx.draw_networkx_labels(G, pos, font_weight='bold', font_size=6)
+nx.draw_networkx_labels(G, pos, font_size=6)
 
 
 # line style ends
