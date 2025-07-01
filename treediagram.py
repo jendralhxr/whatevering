@@ -147,7 +147,7 @@ nx.draw_networkx_edges(
     style='solid',
     arrows=True,
     arrowstyle='->',
-    edge_color='gray',
+    edge_color='dimgray',
     connectionstyle='arc3,rad=0.1'
 )
 
@@ -158,7 +158,7 @@ nx.draw_networkx_edges(
     style='dashed',
     arrows=True,
     arrowstyle='->',
-    edge_color='lightgray',
+    edge_color='gray',
     connectionstyle='arc3,rad=0.1'
 )
 
