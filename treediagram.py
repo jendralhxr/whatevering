@@ -163,8 +163,12 @@ nx.draw_networkx_edges(
 )
 
 
+max_depth = max(depths.values())
+node_sizes = [200 * (max_depth + 1 - depths[n]) for n in G.nodes()]
+
+
 # Draw nodes and labels once
-nx.draw_networkx_nodes(G, pos, node_color=colors, node_size=200)
+nx.draw_networkx_nodes(G, pos, node_color=colors, node_size=node_sizes)
 nx.draw_networkx_labels(G, pos, font_size=6)
 
 
