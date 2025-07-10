@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 df = pd.read_csv('traffic.csv')  # replace with your actual filename
 column_title= 'total'
 data = df[column_title].dropna().values  # drop NaNs if any
-n_simulations= int(1e3)
+n_simulations= int(1e6)
 element_std = 0.20 * data
 
 # Simulate each data point independently using its own mean/std
@@ -64,7 +64,7 @@ mean_ratio = np.mean(clean_ratios)
 plt.axvline(x=mean_ratio, color='green', linestyle='--', linewidth=2, label=f'MC Mean = {mean_ratio:.2f}')
 
 # Labels and formatting
-plt.title("Distribution of Simulated Ratios (Simulated / Analytic)")
+plt.title(f"Distribution of Ratio of Simulated / Analytic (n={n_simulations})")
 plt.xlabel("Ratio Value")
 plt.ylabel("Density")
 plt.grid(True, linestyle='--', alpha=0.5)
