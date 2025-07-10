@@ -72,6 +72,15 @@ plt.legend()
 plt.tight_layout()
 plt.show()
 
+# # Probability of ratio < 1.0
+# p_below_1 = np.mean(clean_ratios < 1.0)
+# p_above_1 = np.mean(clean_ratios > 1.0)
+# p_equal_1 = np.mean(clean_ratios == 1.0)
+# print(f"Probability ratio < 1.0:  {p_below_1:.4f}")
+# print(f"Probability ratio > 1.0:  {p_above_1:.4f}")
+# print(f"Probability ratio == 1.0: {p_equal_1:.4f}")
+
+
 
 
 print(f"Total traffic (IDR): {np.sum(simulations)/n_simulations} ")
