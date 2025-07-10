@@ -22,23 +22,30 @@ np.random.seed(42)  # for reproducibility
 selected_indices = np.random.choice(simulations.shape[0], size=20, replace=False)
 selected_simulations = simulations[selected_indices]
 
+import matplotlib.ticker as ticker  # Add this import at the top
+
 plt.figure(figsize=(12, 6))
 plt.plot(years, data, color='darkblue', linewidth=2, label='Original Data')
 
 # Generate 20 light random colors and plot simulations
 for sim in selected_simulations:
-    # Light random color
     light_color = np.random.rand(3) * 0.5 + 0.5  # RGB values between 0.5 and 1.0
     plt.plot(years, sim, color=light_color, linewidth=1, alpha=0.7)
 
 # Labels and legend
-plt.title("Original Data and 20 Monte Carlo Simulations (20 is for illustation purpose only)")
+plt.title("Original Data and 20 Monte Carlo Simulations (20 is for illustration purpose only)")
 plt.xlabel("Year")
 plt.ylabel(f"{column_title}")
 plt.grid(True)
 plt.legend()
+
+# Format x-axis as integer years
+ax = plt.gca()
+ax.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f'{int(x)}'))
+
 plt.tight_layout()
 plt.show()
+
 
 # # mungkin agak susah dicerna
 # plt.hist(simulated_ratios, bins=60)
