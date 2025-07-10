@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load CSV file
-df = pd.read_csv('traffic.csv')  # replace with your actual filename
+df = pd.read_csv('costs.csv')  # replace with your actual filename
 column_title= 'total'
 data = df[column_title].dropna().values  # drop NaNs if any
 n_simulations= int(1e6)
@@ -90,4 +90,4 @@ plt.show()
 
 
 
-print(f"Total traffic (IDR): {np.sum(simulations)/n_simulations} ")
+print(f"Total {column_title} (IDR): {np.sum(simulations)/n_simulations} ")
