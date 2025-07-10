@@ -41,7 +41,7 @@ plt.tight_layout()
 plt.show()
 
 # # mungkin agak susah dicerna
-# plt.hist(simulated_ratios, bins=30)
+# plt.hist(simulated_ratios, bins=60)
 # plt.axhline(1.0, color='red', linestyle='--', linewidth=2, label="Original (ratio = 1)")
 # plt.title(f"Monte Carlo Simulation (Ratio: simulated / {column_title})")
 # plt.xlabel("Mean Ratio per Simulation")
@@ -49,6 +49,29 @@ plt.show()
 # plt.legend()
 # plt.grid(True)
 # plt.show()
+
+
+# simulation distribution
+flattened_ratios = simulated_ratios.flatten()
+clean_ratios = flattened_ratios[np.isfinite(flattened_ratios)]
+plt.hist(clean_ratios, bins=50, density=True, color='cornflowerblue', edgecolor='black', alpha=0.8)
+
+# Add a vertical line at ratio = 1.0 (perfect match)
+plt.axvline(x=1.0, color='red', linestyle='--', linewidth=2, label='Analytic')
+
+# (Optional) Add a line at the mean
+mean_ratio = np.mean(clean_ratios)
+plt.axvline(x=mean_ratio, color='green', linestyle='--', linewidth=2, label=f'MC Mean = {mean_ratio:.2f}')
+
+# Labels and formatting
+plt.title("Distribution of Simulated Ratios (Simulated / Analytic)")
+plt.xlabel("Ratio Value")
+plt.ylabel("Density")
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
 
 
 print(f"Total traffic (IDR): {np.sum(simulations)/n_simulations} ")
