@@ -5,12 +5,7 @@ import matplotlib.pyplot as plt
 # Load CSV file
 df = pd.read_csv('traffic.csv')  # replace with your actual filename
 column_title= 'total'
-
-
-# Extract the 'ongkos' data series
 data = df[column_title].dropna().values  # drop NaNs if any
-
-# Calculate mean and set std deviation to 20% of the mean
 n_simulations= int(1e3)
 element_std = 0.20 * data
 
@@ -27,10 +22,7 @@ np.random.seed(42)  # for reproducibility
 selected_indices = np.random.choice(simulations.shape[0], size=20, replace=False)
 selected_simulations = simulations[selected_indices]
 
-# --- Plotting ---
 plt.figure(figsize=(12, 6))
-
-# Plot the original data
 plt.plot(years, data, color='darkblue', linewidth=2, label='Original Data')
 
 # Generate 20 light random colors and plot simulations
