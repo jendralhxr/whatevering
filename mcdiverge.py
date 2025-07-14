@@ -108,7 +108,9 @@ print(df_cost)
 #base_year= 2027
 base_year = df_benefit['year'].iloc[0]
 
-discount_rate= 0.1
+discount_rate = np.random.normal(loc=0.1, scale=0.04)
+discount_rate = np.clip(discount_rate, 0, 1)  # ensure valid %
+
 
 df_benefit['perceived_value'] = df_benefit['total'] * ((1-discount_rate) ** (df_benefit['year'] - base_year))
 
