@@ -5,7 +5,7 @@ from datetime import datetime
 seed = int(datetime.now().timestamp())  # Seconds since epoch
 np.random.seed(seed)
 
-iter_max= int(1e6)
+iter_max= int(1e3)
 
 netpv = np.linspace(0.0, 0, iter_max)
 
@@ -121,12 +121,12 @@ for i in range(iter_max):
     df_benefit['perceived_value'] = df_benefit['total'] * ((1-discount_rate) ** (df_benefit['year'] - base_year))
     df_cost['perceived_value'] = df_cost['total'] * (0.9 ** (df_cost['year'] - base_year))
     
-    netpv[i]= df_benefit['total'].sum() - df_cost['total'].sum()
+    netpv[i]= df_benefit['perceived_value'].sum() - df_cost['perceived_value'].sum()
     
 import matplotlib.pyplot as plt
 plt.hist(netpv, bins=30, color='skyblue', edgecolor='black')
-plt.title('Histogram of Net Present Value (NPV)')
-plt.xlabel('NPV')
+plt.title('Expected Net Present Value (NPV) from Monte Carlo Simulation')
+plt.xlabel('NPV (million IDR)')
 plt.ylabel('Frequency')
 plt.grid(True)
 plt.tight_layout()
