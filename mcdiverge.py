@@ -132,9 +132,15 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
     
-profit= (netpv > netpv.mean()).sum()
+profit= (netpv > 0).sum() # playing fair
+# profit= (netpv > 0).sum() # if expecting some kind of return already
 loss = iter_max - profit
 
 print(f"turns profit: {profit}")
 print(f"incur losses: {loss}")
+
+cumsum_untung = netpv[netpv > 0].cumsum().sum()
+cumsum_rugi = netpv[netpv < 0].cumsum().sum()
+
+print(f"cumsum: {cumsum_untung+cumsum_rugi}")
 
