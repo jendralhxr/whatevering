@@ -132,4 +132,9 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
     
+profit= (netpv > netpv.mean()).sum()
+loss = iter_max - profit
+
+print(f"turns profit: {profit}")
+print(f"incur losses: {loss}")
 
