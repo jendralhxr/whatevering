@@ -140,6 +140,7 @@ dashed_edges = [(v,u) for u, v, d in G.edges(data=True) if d.get('style') == 'da
 edge_weights = nx.get_edge_attributes(G, 'weight')
 
 # Draw solid edges
+plt.margins(0)
 nx.draw_networkx_edges(
     G, pos,
     edgelist=solid_edges,
@@ -177,5 +178,7 @@ edge_labels = {(u, v): f"{d['weight']:.2f}" for u, v, d in G.edges(data=True)}
 nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='black', font_size=4.5)
 
 #plt.title("Feasibility Tree from CSV (Layers, Colors, Weights)")
-plt.tight_layout()
-plt.show()
+plt.axis('off')                           # Turn off the axis
+plt.margins(0)                            # Remove margins
+plt.subplots_adjust(left=0, right=1, top=1, bottom=0)  # Remove space around figure
+plt.tight_layout(pad=0)  
