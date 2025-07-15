@@ -33,7 +33,7 @@ for i in range(iter_max):
     
     # Growth rates
     growth_rates = {
-        'goods': 0.05,      # 5% annual growth
+        'goods': 0.04,      # 5% annual growth
         'boats': 0.02,      # 2% annual growth
         'inflation': 0.038    
     }
@@ -124,14 +124,21 @@ for i in range(iter_max):
     netpv[i]= df_benefit['perceived_value'].sum() - df_cost['perceived_value'].sum()
     
 import matplotlib.pyplot as plt
-plt.hist(netpv, bins=30, color='skyblue', edgecolor='black')
-plt.title('Expected Net Present Value (NPV) from Monte Carlo Simulation')
+from scipy.stats import norm
+
+# Fit a normal distribution to the NPV
+mu, std = norm.fit(netpv)
+plt.hist(netpv, bins=30, density=True, color='skyblue', edgecolor='black', alpha=0.7)
+
+xmin, xmax = plt.xlim()
+x = np.linspace(xmin, xmax, 1000)
+p = norm.pdf(x, mu, std)
+plt.plot(x, p, 'r', linewidth=2, label=f'N({mu:.2f} ±{std:.2f})')
+plt.title(f'Expected NPV from Monte Carlo Simulation (n={iter_max})')
 plt.xlabel('NPV (million IDR)')
-plt.ylabel('Frequency')
-plt.grid(True)
-plt.tight_layout()
-plt.show()
-    
+plt.ylabel('Probability Density')
+plt.legend()
+  
 profit= (netpv > 0).sum() # playing fair
 # profit= (netpv > 0).sum() # if expecting some kind of return already
 loss = iter_max - profit
