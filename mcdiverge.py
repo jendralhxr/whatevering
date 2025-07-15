@@ -13,13 +13,12 @@ for i in range(iter_max):
 
     #------- benefit 
     
+    
     goods_mean = 336.0
     goods_std = 0.20 * goods_mean  # 20% standard deviation
     goods_2028 = np.random.normal(loc=goods_mean, scale=goods_std)
     
-    overestimate_mean = 59.8
-    overestimate_std = 276  
-    overestimate = np.random.normal(loc=overestimate_mean, scale=overestimate_std)
+    
         
     initial_data = {
         'year': [2028],
@@ -30,6 +29,11 @@ for i in range(iter_max):
     
     df_benefit = pd.DataFrame(initial_data)
     df_benefit['total'] = df_benefit['goods'] + df_benefit['boats'] + df_benefit['vacation']
+    
+    # Flyvbjerg 2003, Transport reviews 23.1 (2003): 71-88.
+    overestimate_mean = 0.095 * df_benefit['total']
+    overestimate_std = 0.44 * df_benefit['total']
+    overestimate = np.random.normal(loc=overestimate_mean, scale=overestimate_std)
     
     # Growth rates
     growth_rates = {
@@ -129,11 +133,12 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm
 
 # Fit normal distribution to the NPV
+# the PDF
 mu, std = norm.fit(netpv)
 plt.hist(netpv, bins=30, density=True, color='skyblue', edgecolor='black', alpha=0.7)
 
 xmin, xmax = plt.xlim()
-x = np.linspace(xmin, xmax, 1000)
+x = np.linspace(xmin, xmax, iter_max)
 p = norm.pdf(x, mu, std)
 plt.plot(x, p, 'r', linewidth=2, label=f'N({mu:.2f} ±{std:.2f})')
 plt.title(f'Expected Cumulative NPV from Monte Carlo Simulation (n={iter_max})')
@@ -176,18 +181,12 @@ netpv_sorted = np.sort(netpv)
 cdf_empirical = np.arange(1, len(netpv_sorted)+1) / len(netpv_sorted)
 
 # Fitted CDF
-x = np.linspace(min(netpv), max(netpv), 1000)
+x = np.linspace(min(netpv), max(netpv), iter_max)
 cdf_fitted = norm.cdf(x, mu, std)
-
-# Plot both
-plt.plot(netpv_sorted, cdf_empirical, label='Empirical CDF', color='skyblue')
+plt.plot(netpv_sorted, cdf_empirical, label='Empirical NPV CDF', color='skyblue')
 plt.plot(x, cdf_fitted, 'r--', linewidth=2, label=f'N({mu:.2f} ±{std:.2f})')
 
-# Add labels and title
 plt.title('Cumulative Distribution Function of NPV')
 plt.xlabel('NPV (million IDR)')
 plt.ylabel('Cumulative Probability')
 plt.legend()
-
-plt.grid(True)
-plt.show()
