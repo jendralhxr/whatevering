@@ -122,11 +122,13 @@ for i in range(iter_max):
     df_cost['perceived_value'] = df_cost['total'] * ((1-discount_rate) ** (df_cost['year'] - base_year))
     
     netpv[i]= df_benefit['perceived_value'].sum() - df_cost['perceived_value'].sum()
+
+# visualization for some discussion
     
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 
-# Fit a normal distribution to the NPV
+# Fit normal distribution to the NPV
 mu, std = norm.fit(netpv)
 plt.hist(netpv, bins=30, density=True, color='skyblue', edgecolor='black', alpha=0.7)
 
@@ -134,8 +136,8 @@ xmin, xmax = plt.xlim()
 x = np.linspace(xmin, xmax, 1000)
 p = norm.pdf(x, mu, std)
 plt.plot(x, p, 'r', linewidth=2, label=f'N({mu:.2f} ±{std:.2f})')
-plt.title(f'Expected NPV from Monte Carlo Simulation (n={iter_max})')
-plt.xlabel('NPV (million IDR)')
+plt.title(f'Expected Cumulative NPV from Monte Carlo Simulation (n={iter_max})')
+plt.xlabel('20-year NPV (million IDR)')
 plt.ylabel('Probability Density')
 plt.legend()
   
@@ -151,3 +153,20 @@ cumsum_rugi = netpv[netpv < 0].cumsum().sum()
 
 print(f"cumsum: {cumsum_untung+cumsum_rugi}")
 
+
+# confidence interval
+from scipy import stats
+
+n = len(netpv)
+mean = np.mean(netpv)
+std_err = stats.sem(netpv)  # Standard error of the mean
+
+# 95% confidence interval
+confidence = 0.95
+h = std_err * stats.t.ppf((1 + confidence) / 2, n - 1)
+
+ci_lower = mean - h
+ci_upper = mean + h
+
+print(f"Mean NPV: {mean:.2f}")
+print(f"95% Confidence Interval: ({ci_lower:.2f}, {ci_upper:.2f})")
