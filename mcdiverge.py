@@ -5,7 +5,7 @@ from datetime import datetime
 seed = int(datetime.now().timestamp())  # Seconds since epoch
 np.random.seed(seed)
 
-iter_max= int(1e3)
+iter_max= int(1e4)
 
 netpv = np.linspace(0.0, 0, iter_max)
 
@@ -13,15 +13,19 @@ for i in range(iter_max):
 
     #------- benefit 
     
-    goods_mean = 1008.5
+    goods_mean = 336.0
     goods_std = 0.20 * goods_mean  # 20% standard deviation
     goods_2028 = np.random.normal(loc=goods_mean, scale=goods_std)
     
+    overestimate_mean = 59.8
+    overestimate_std = 276  
+    overestimate = np.random.normal(loc=overestimate_mean, scale=overestimate_std)
+        
     initial_data = {
         'year': [2028],
         'goods': goods_2028,
-        'boats': [159.8],
-        'vacation': [881.6],
+        'boats': [0],
+        'vacation': [293.0],
     }
     
     df_benefit = pd.DataFrame(initial_data)
@@ -40,7 +44,7 @@ for i in range(iter_max):
         new_goods = prev['goods'] * (1 + growth_rates['goods']) * (1 + growth_rates['inflation'])
         new_boats = prev['boats'] * (1 + growth_rates['boats'])
         new_vacation = prev['vacation']  * (1 + growth_rates['goods']) * (1 + growth_rates['inflation'])
-        new_total = new_goods + new_boats + new_vacation
+        new_total = new_goods + new_boats + new_vacation -overestimate
     
         df_benefit = pd.concat([df_benefit, pd.DataFrame([{
             'year': year,
@@ -50,33 +54,27 @@ for i in range(iter_max):
             'total': new_total
         }])], ignore_index=True)
     
-    # Optional: format floats for better display
-    pd.options.display.float_format = '{:,.2f}'.format
-    
-    # Print full result
-    #print(df_benefit)
+    # pd.options.display.float_format = '{:,.2f}'.format
+    # print(df_benefit)
     
     
     #---------- costs
     
-    
-    
     # Define capex range
-    capex_min = 23947.4
-    capex_max = 28736.8
-    cost_overrun = capex_max - capex_min # this is cost overrun
+    capex_base= 3370.0
     
-    # Random capex for 2027
-    # capex_2027 = capex_min + np.random.rand() * cost_overrun # uniform distribution
+    # overrun cost follow normal distribution
+    # Flyvbjerg 2003, Transport reviews 23.1 (2003): 71-88.
+    overrun_mean= 0.646 * capex_base
+    overrun_stddev= 0.495 * capex_base
+    overrun = np.random.normal(loc=overrun_mean, scale=overrun_stddev)
+
+    # random_ratio = np.random.normal(loc=mean_ratio, scale=std_ratio)
+    # random_ratio = np.clip(random_ratio, 0, 1)
+    capex_2027 = capex_base + overrun
     
-    # Compute capex_2027 using the normal random ratio
-    mean_ratio = 0.5      # mid of 0–1
-    std_ratio = 0.2       # 20% std deviation
-    random_ratio = np.random.normal(loc=mean_ratio, scale=std_ratio)
-    random_ratio = np.clip(random_ratio, 0, 1)
-    capex_2027 = capex_min + random_ratio * cost_overrun
-    
-    opex_2027 = 494.5
+    opex_ratio= 0.0206498336269329
+    opex_2027 = opex_ratio * capex_2027
     total_2027 = capex_2027 + opex_2027
     
     # Create the initial DataFrame for 2027
@@ -104,22 +102,24 @@ for i in range(iter_max):
             'total': new_total
         }])], ignore_index=True)
     
-    # Optional: nicer float formatting
-    pd.options.display.float_format = '{:,.2f}'.format
-    
-    
+    # pd.options.display.float_format = '{:,.2f}'.format
     # print(df_cost)
     
+    
     #---- PV
-    #base_year= 2027
+    # empirical evidence, Ramsey formula,
+    # https://www.pc.gov.au/research/supporting/cost-benefit-discount/cost-benefit-discount.pdf
+    discount_rate = np.random.normal(loc=(11-0.24)/2, scale=1.793)  # loc = mean, scale = std
+    discount_rate = np.clip(discount_rate, 0.24, 11) / 100
+    
+    # our gut feeling
+    # discount_rate = np.random.normal(loc=0.1, scale=0.04)
+    # discount_rate = np.clip(discount_rate, 0, 1)  # ensure valid %
     base_year = df_benefit['year'].iloc[0]
-    #base_year = df_cost['year'].iloc[0]
-    
-    discount_rate = np.random.normal(loc=0.1, scale=0.04)
-    discount_rate = np.clip(discount_rate, 0, 1)  # ensure valid %
-    
     df_benefit['perceived_value'] = df_benefit['total'] * ((1-discount_rate) ** (df_benefit['year'] - base_year))
-    df_cost['perceived_value'] = df_cost['total'] * (0.9 ** (df_cost['year'] - base_year))
+    
+    base_year = df_cost['year'].iloc[0]
+    df_cost['perceived_value'] = df_cost['total'] * ((1-discount_rate) ** (df_cost['year'] - base_year))
     
     netpv[i]= df_benefit['perceived_value'].sum() - df_cost['perceived_value'].sum()
     
