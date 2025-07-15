@@ -170,3 +170,24 @@ ci_upper = mean + h
 
 print(f"Mean NPV: {mean:.2f}")
 print(f"95% Confidence Interval: ({ci_lower:.2f}, {ci_upper:.2f})")
+
+#----- cdf
+netpv_sorted = np.sort(netpv)
+cdf_empirical = np.arange(1, len(netpv_sorted)+1) / len(netpv_sorted)
+
+# Fitted CDF
+x = np.linspace(min(netpv), max(netpv), 1000)
+cdf_fitted = norm.cdf(x, mu, std)
+
+# Plot both
+plt.plot(netpv_sorted, cdf_empirical, label='Empirical CDF', color='skyblue')
+plt.plot(x, cdf_fitted, 'r--', linewidth=2, label=f'N({mu:.2f} ±{std:.2f})')
+
+# Add labels and title
+plt.title('Cumulative Distribution Function of NPV')
+plt.xlabel('NPV (million IDR)')
+plt.ylabel('Cumulative Probability')
+plt.legend()
+
+plt.grid(True)
+plt.show()
