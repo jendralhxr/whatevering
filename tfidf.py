@@ -49,3 +49,32 @@ global_importance = df_tfidf.sum(axis=0).sort_values(ascending=False)
 
 print("\n🌟 Most Important (TF-IDF) Words:")
 print(global_importance.head(10))
+
+#---- PDF
+import fitz  # PyMuPDF
+def extract_pdf_words(filepath):
+    doc = fitz.open(filepath)
+    full_text = ""
+    for page in doc:
+        full_text += page.get_text()
+    # Tokenize and clean with spaCy
+    tokens = [
+        token.text for token in nlp(full_text.lower())
+        if not token.is_stop and not token.is_punct and not token.is_space
+    ]
+    return tokens
+
+tokens = extract_pdf_words("your_file.pdf")
+
+#------ DOC/DOCX
+from docx import Document
+def extract_docx_words(filepath):
+    doc = Document(filepath)
+    full_text = " ".join([para.text for para in doc.paragraphs])
+    tokens = [
+        token.text for token in nlp(full_text.lower())
+        if not token.is_stop and not token.is_punct and not token.is_space
+    ]
+    return tokens
+
+tokens = extract_docx_words("your_file.docx")
