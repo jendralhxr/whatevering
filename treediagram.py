@@ -7,7 +7,7 @@ import numpy as np
 
 # Load edges and weights
 nodes_df = pd.read_csv("nodes.csv")
-edges_df = pd.read_csv("edges.csv")
+edges_df = pd.read_csv("edges2.csv")
 
 # Create directed graph
 G = nx.DiGraph()
