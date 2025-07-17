@@ -121,7 +121,8 @@ def get_tfidf_keywords(docs_tokens, top_n=20):
         tokenizer=identity,
         preprocessor=None,
         token_pattern=None,
-        lowercase=False
+        lowercase=False,
+        ngram_range=(1, 3) # frasa majemuk
     )
     tfidf_matrix = vectorizer.fit_transform(docs_tokens)
     feature_names = vectorizer.get_feature_names_out()
