@@ -110,6 +110,7 @@ rgba[..., 3] = np.where(values <= 0.0, 0.0, 0.8)  # semi-opaque for visible area
 # convert to 8-bit image
 rgba_8 = (rgba * 255).astype(np.uint8)
 pil_img = Image.fromarray(rgba_8)
+pil_img.save("/shm/dicoba.png","PNG")
 
 # save PNG to bytes
 buf = io.BytesIO()
