@@ -33,11 +33,14 @@ tags = {
 }
 print("Downloading water features from OSM...")
 gdfs = []
-# osmnx.geometries_from_place accepts dict of tags; we'll call once per key pair to be safe
+# osmnx.features_from_place accepts dict of tags; we'll call once per key pair to be safe
 # (some OSM tags mix types; this approach collects a broad set)
-gdfs.append(ox.geometries_from_place(PLACE, {"natural":"water"}))
-gdfs.append(ox.geometries_from_place(PLACE, {"water": True}))
-gdfs.append(ox.geometries_from_place(PLACE, {"waterway": ["river","stream","canal","drain"]}))
+gdfs.append(ox.features_from_place(PLACE, {"natural":"water"}))
+gdfs.append(ox.features_from_place(PLACE, {"natural":"wetland"}))
+gdfs.append(ox.features_from_place(PLACE, {"water": True}))
+gdfs.append(ox.features_from_place(PLACE, {"waterway": ["river","stream","canal","drain"]}))
+gdfs.append(ox.features_from_place(PLACE, {"leisure":"swimming_pool"}))
+
 
 # combine and only keep geometry column
 water_gdf = gpd.GeoDataFrame(pd.concat([gdf[['geometry']] for gdf in gdfs], ignore_index=True))
