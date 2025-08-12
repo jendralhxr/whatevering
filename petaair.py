@@ -25,6 +25,10 @@ CMAP = "viridis"
 PNG_DPI = 150
 # ----------------------------------------
 
+def draw(pil_img):
+    plt.imshow(np.array(pil_img))
+    plt.axis("off")
+
 # 1. download water geometries from OSM
 tags = {
     "natural": ["water"],
