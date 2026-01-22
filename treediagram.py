@@ -139,46 +139,108 @@ dashed_edges = [(v,u) for u, v, d in G.edges(data=True) if d.get('style') == 'da
 # Edge weights
 edge_weights = nx.get_edge_attributes(G, 'weight')
 
-# Draw solid edges
+def wrap_label(s, max_len=24):
+    words = s.split()
+    lines = []
+    current = ""
+
+    for w in words:
+        if len(current) + len(w) + (1 if current else 0) <= max_len:
+            current = f"{current} {w}".strip()
+        else:
+            lines.append(current)
+            current = w
+
+    if current:
+        lines.append(current)
+
+    return "\n".join(lines)
+
+for n in G.nodes:
+    G.nodes[n]["label"] = wrap_label(n)
+
+
+# GAMBAR LAMA BERTAHAP
+# # Draw solid edges
+# plt.margins(0)
+# nx.draw_networkx_edges(
+#     G, pos,
+#     edgelist=solid_edges,
+#     width=[edge_weights[(v,u)] * 8 for u, v in solid_edges],
+#     style='solid',
+#     arrows=True,
+#     arrowstyle='->',
+#     edge_color='dimgray',
+#     connectionstyle='arc3,rad=0.1'
+# )
+
+# nx.draw_networkx_edges(
+#     G, pos,
+#     edgelist=dashed_edges,
+#     width=[edge_weights[(v,u)] * 4 for u, v in dashed_edges],
+#     style='dashed',
+#     arrows=True,
+#     arrowstyle='->',
+#     edge_color='gray',
+#     connectionstyle='arc3,rad=0.1'
+# )
+
+# max_depth = max(depths.values())
+# node_sizes = [200 * (max_depth + 1 - depths[n]) for n in G.nodes()]
+
+# # Draw nodes and labels once
+# nx.draw_networkx_nodes(G, pos, node_color=colors, node_size=node_sizes)
+# nx.draw_networkx_labels(G, pos, font_size=6)
+
+# # Draw edge weights
+# edge_labels = {(u, v): f"{d['weight']:.2f}" for u, v, d in G.edges(data=True)}
+# nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='black', font_size=4.5)
+
 plt.margins(0)
-nx.draw_networkx_edges(
-    G, pos,
-    edgelist=solid_edges,
-    width=[edge_weights[(v,u)] * 8 for u, v in solid_edges],
-    style='solid',
-    arrows=True,
-    arrowstyle='->',
-    edge_color='dimgray',
-    connectionstyle='arc3,rad=0.1'
-)
 
-nx.draw_networkx_edges(
-    G, pos,
-    edgelist=dashed_edges,
-    width=[edge_weights[(v,u)] * 4 for u, v in dashed_edges],
-    style='dashed',
-    arrows=True,
-    arrowstyle='->',
-    edge_color='gray',
-    connectionstyle='arc3,rad=0.1'
-)
+# Edge drawing helper
+def draw_edges(edgelist, scale, style, color):
+    nx.draw_networkx_edges(
+        G, pos,
+        edgelist=edgelist,
+        width=[edge_weights[(v, u)] * scale for u, v in edgelist],
+        style=style,
+        arrows=True,
+        arrowstyle='->',
+        edge_color=color,
+        connectionstyle='arc3,rad=0.1'
+    )
 
+# draw_edges(solid_edges, 8, 'solid', 'dimgray')
+# draw_edges(dashed_edges, 4, 'dashed', 'gray')
 
+# Node sizes by depth
 max_depth = max(depths.values())
 node_sizes = [200 * (max_depth + 1 - depths[n]) for n in G.nodes()]
 
 
-# Draw nodes and labels once
-nx.draw_networkx_nodes(G, pos, node_color=colors, node_size=node_sizes)
-nx.draw_networkx_labels(G, pos, font_size=6)
+# Nodes + labels
+labels = nx.get_node_attributes(G, "label")
+nx.draw(
+    G, pos,
+    node_color=colors,
+    node_size=node_sizes,
+    with_labels=True,
+    labels=labels,
+    font_size=6,
+    arrows=False
+)
+
+# Edge weights
+nx.draw_networkx_edge_labels(
+    G, pos,
+    edge_labels={(u, v): f"{d['weight']:.2f}" for u, v, d in G.edges(data=True)},
+    font_size=4.5
+)
 
 
-# Draw edge weights
-edge_labels = {(u, v): f"{d['weight']:.2f}" for u, v, d in G.edges(data=True)}
-nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='black', font_size=4.5)
-
-#plt.title("Feasibility Tree from CSV (Layers, Colors, Weights)")
-plt.axis('off')                           # Turn off the axis
-plt.margins(0)                            # Remove margins
-plt.subplots_adjust(left=0, right=1, top=1, bottom=0)  # Remove space around figure
-plt.tight_layout(pad=0)  
+# #plt.title("Feasibility Tree from CSV (Layers, Colors, Weights)")
+# plt.axis('off')                           # Turn off the axis
+# plt.margins(0)                            # Remove margins
+# plt.subplots_adjust(left=0, right=1, top=1, bottom=0)  # Remove space around figure
+# plt.tight_layout(pad=0)  
