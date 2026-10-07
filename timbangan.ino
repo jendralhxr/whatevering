@@ -68,6 +68,14 @@ void setup() {
 
   // 2. Configure SoftAP & Internal DHCP Server
   WiFi.softAP(ssid, password);
+  // Disable sending Default Gateway (Option 3) to DHCP clients
+  uint8_t dhcp_offer_option = ROUTER_OFFER_DISABLE;
+  dhcps_change_option(
+    OFFER_ROUTER, 
+    &dhcp_offer_option, 
+    sizeof(dhcp_offer_option)
+  );
+  Serial.println("DHCP server configured: Gateway option disabled.");
   IPAddress IP = WiFi.softAPIP();
   Serial.println("\n=========================================");
   Serial.print("Access Point Started! Network Name: ");
