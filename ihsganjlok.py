@@ -29,6 +29,7 @@ for ax, col in zip(axes.ravel(), close.columns):
 fig.suptitle("IHSG & selected IDX stocks - last 7 trading days (close, IDR)", fontsize=14)
 fig.tight_layout()
 
+
 # Figure 2: rebased to 100 so performance is comparable on one chart
 rebased = close / close.bfill().iloc[0] * 100
 fig2, ax2 = plt.subplots(figsize=(12, 6))
