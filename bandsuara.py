@@ -46,12 +46,12 @@ ax = sns.heatmap(
     annot=True, 
     fmt=".3f", 
     cmap="YlGnBu", 
-    cbar_kws={'label': "Cohen's d (|d|)"},
+    cbar_kws={'label': "Cohen (|d|) Separation"},
     linewidths=0.5,
     linecolor='gray'
 )
 
-plt.title("Separation Strength (Cohen's d) by Frequency Band & Audio Feature Metric", fontsize=12, pad=15)
+#plt.title("Separation Strength (Cohen's d) by Frequency Band & Audio Feature Metric", fontsize=12, pad=15)
 plt.xlabel("Audio Feature Metric", fontsize=11, labelpad=10)
 plt.ylabel("Frequency Band", fontsize=11, labelpad=10)
 plt.xticks(rotation=0)
